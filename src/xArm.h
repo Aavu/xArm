@@ -61,11 +61,13 @@ private:
     // The angles of the N-joints for each command for each arm
     std::vector<std::vector<std::vector<fp32>>> m_servoAngles; // angles of each arm, each line
 
+    // Number of commands in the csv file
     size_t m_iNumCommands = 0;
 
     // Container to hold references to the arms that are initialized. The Index correspond to the IDs of the arms.
     std::vector<XArmAPI *> m_arms;
 
+    // The thread that handles the realtime process
     CThread* m_pRtThread = nullptr;
 
     /// Initialize each arm as return a pointer to the XArmAPI object
