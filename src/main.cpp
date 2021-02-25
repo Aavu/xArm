@@ -12,7 +12,7 @@ int main(int argc, char const *argv[])
     std::vector<std::string> IPs {"192.168.1.236", "192.168.1.204"};
     CxArms xArms(IPs);
 
-    std::vector<std::string> csvFiles {"../../forest1a.csv", "../../forest1b.csv"};
+    std::vector<std::string> csvFiles {"../forest1a.csv", "../forest1b.csv"};
     int err = xArms.loadCSV(csvFiles);
     if (err != STATUS_OK) {
         std::cerr << "Error loading CSV files" << std::endl;
