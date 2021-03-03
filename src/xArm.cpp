@@ -113,7 +113,7 @@ void CxArms::callback () {
 
 #ifdef USE_XARM
         for (int a = 0; a< m_iNumArms; ++a) {
-            m_arms[a]->set_servo_angle(m_servoAngles[a][_i], true);
+            m_arms[a]->set_servo_angle(m_servoAngles[a][_i].data(), true);
         }
 #else
     for (int a = 0; a < m_iNumArms; ++a) {
