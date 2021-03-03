@@ -65,7 +65,7 @@ error_t CxArms::loadCSV(const std::vector<std::string>& filePaths) {
 
 XArmAPI* CxArms::initArmAPI(const std::string& ip) {
 #ifdef USE_XARM
-    auto* m_pArm = new XArmAPI(m_ip[0]);
+    auto* m_pArm = new XArmAPI(ip);
     std::this_thread::sleep_for(std::chrono::milliseconds (500));
     m_pArm->clean_error();
     m_pArm->clean_warn();
