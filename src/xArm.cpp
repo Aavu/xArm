@@ -75,7 +75,12 @@ XArmAPI* CxArms::initArmAPI(const std::string& ip) {
 
     int ret = m_pArm->set_servo_angle(m_fDefaultServoAngle, true);
     std::this_thread::sleep_for(std::chrono::milliseconds (500));
-    return (ret != 0) ? m_pArm : nullptr;
+    if (ret == 0) {
+        delete m_pArm;
+        return nullptr;
+    }
+
+    return m_pArm;
 #else
     return nullptr;
 #endif
@@ -86,6 +91,10 @@ error_t CxArms::reset(int _id, bool deAlloc) {
 #ifdef USE_XARM
         for (auto* arm : m_arms)
         {
+            if (!arm) {
+                continue;
+            }
+
             arm->reset();
             if (deAlloc) {
                 delete arm;
@@ -99,9 +108,11 @@ error_t CxArms::reset(int _id, bool deAlloc) {
     }
 
 #ifdef USE_XARM
-    m_arms[_id]->reset();
-    if (deAlloc) {
-        delete m_arms[_id];
+    if (m_arms[_id]) {
+        m_arms[_id]->reset();
+        if (deAlloc) {
+            delete m_arms[_id];
+        }
     }
 #endif
     return STATUS_OK;
@@ -113,7 +124,8 @@ void CxArms::callback () {
 
 #ifdef USE_XARM
         for (int a = 0; a< m_iNumArms; ++a) {
-            m_arms[a]->set_servo_angle(m_servoAngles[a][_i].data(), true);
+            if (m_arms[a])
+                m_arms[a]->set_servo_angle(m_servoAngles[a][_i].data(), true);
         }
 #else
     for (int a = 0; a < m_iNumArms; ++a) {
